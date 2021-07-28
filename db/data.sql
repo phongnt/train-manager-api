@@ -1,0 +1,3 @@
+-- Auto-generated SQL script #202102030115
+INSERT INTO public.trains (id,"name",description,"distance-between-stop","max-speed","sharing-tracks","grade-crossing","train-frequency",amenities)
+VALUES (1,'Light rail','Light rail, which might be also known as trolley and streetcars, mean trains that function as local transit in an urban-core and can operate on the street-level. Compared to rapid transit, light rail costs less, is more pedestrian friendly, but has less passenger capacity. The major advantage with light rail is that it can operate like rapid transit or like local buses, depending on the available infrastructure','a few blocks to 1 or 2 miles','55-65 mph',true,false,'3-30 minutes','n/a');
