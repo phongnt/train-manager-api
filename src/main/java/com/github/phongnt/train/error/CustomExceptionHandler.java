@@ -1,6 +1,7 @@
 package com.github.phongnt.train.error;
 
 import com.github.phongnt.train.dto.GenericResponse;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,27 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                                                                    @NonNull HttpHeaders headers,
                                                                    @NonNull HttpStatus status,
                                                                    @NonNull WebRequest request) {
+        return new ResponseEntity<>(new GenericResponse("invalid endpoint", null),
+                HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Custom handle invalid parameter.
+     *
+     * @param ex the exception
+     * @return the response entity
+     */
+    @ExceptionHandler(InvalidParameterException.class)
+    public ResponseEntity<GenericResponse> customHandleInvalidParameter(Exception ex) {
+        return new ResponseEntity<>(new GenericResponse("invalid endpoint", null),
+                HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(@NonNull TypeMismatchException ex,
+                                                        @NonNull HttpHeaders headers,
+                                                        @NonNull HttpStatus status,
+                                                        @NonNull WebRequest request) {
         return new ResponseEntity<>(new GenericResponse("invalid endpoint", null),
                 HttpStatus.METHOD_NOT_ALLOWED);
     }

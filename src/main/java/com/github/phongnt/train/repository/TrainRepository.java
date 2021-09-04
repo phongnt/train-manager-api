@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface TrainRepository extends JpaRepository<Train, Long> {
 
-    List<Train> findAll();
+    List<Train> findAllByAmenities(String amenities);
+
+    List<Train> findAllBySharingTracksTrue();
 
 }
