@@ -47,6 +47,9 @@ public class TrainController {
         } else {
             throw new InvalidParameterException("allow parameter amenities only");
         }
+        if (trains == null || trains.size() == 0) {
+            return new ResponseEntity(new GenericResponse("train not found", null), HttpStatus.OK);
+        }
         return new ResponseEntity<>(trains, HttpStatus.OK);
     }
 
