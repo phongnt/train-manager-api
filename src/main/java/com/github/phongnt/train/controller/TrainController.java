@@ -42,8 +42,8 @@ public class TrainController {
         List<Train> trains;
         if (params.isEmpty()) {
             trains = trainRepository.findAll();
-        } else if (params.size() == 1 && params.containsKey("amenities")) {
-            trains = trainRepository.findAllByAmenities(params.get("amenities"));
+        } else if (params.containsKey("amenities")) {
+            trains = trainRepository.findAllByAmenitiesContains(params.get("amenities"));
         } else {
             throw new InvalidParameterException("allow parameter amenities only");
         }
