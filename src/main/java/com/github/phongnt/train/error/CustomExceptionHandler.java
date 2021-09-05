@@ -1,5 +1,6 @@
 package com.github.phongnt.train.error;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.github.phongnt.train.dto.GenericResponse;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -72,6 +73,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   @NonNull HttpHeaders headers,
                                                                   @NonNull HttpStatus status,
                                                                   @NonNull WebRequest request) {
+        ex.printStackTrace(System.out);
+        if (ex.getCause() instanceof InvalidFormatException) {
+            return new ResponseEntity<>(new GenericResponse("failed when edit train", null),
+                    HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(new GenericResponse("failed validation", null),
                 HttpStatus.BAD_REQUEST);
     }

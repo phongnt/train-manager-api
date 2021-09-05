@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -108,6 +109,42 @@ public class TrainController {
         trainRepository.save(body);
         return new ResponseEntity<>(new GenericResponse("new train added successfully", null),
                 HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{trainId}")
+    public ResponseEntity<GenericResponse> updateTrain(@PathVariable("trainId") long id, @RequestBody Train body) {
+        Optional<Train> train = trainRepository.findById(id);
+        if (train.isPresent()) {
+            body.setId(id);
+            if (body.getName() == null) {
+                body.setName(train.get().getName());
+            }
+            if (body.getDescription() == null) {
+                body.setDescription(train.get().getDescription());
+            }
+            if (body.getMaxSpeed() == null) {
+                body.setMaxSpeed(train.get().getMaxSpeed());
+            }
+            if (body.getDistanceBetweenStop() == null) {
+                body.setDistanceBetweenStop(train.get().getDistanceBetweenStop());
+            }
+            if (body.getSharingTracks() == null) {
+                body.setSharingTracks(train.get().getSharingTracks());
+            }
+            if (body.getGradeCrossing() == null) {
+                body.setGradeCrossing(train.get().getGradeCrossing());
+            }
+            if (body.getTrainFrequency() == null) {
+                body.setTrainFrequency(train.get().getTrainFrequency());
+            }
+            if (body.getAmenities() == null) {
+                body.setAmenities(train.get().getAmenities());
+            }
+            trainRepository.save(body);
+            return new ResponseEntity<>(new GenericResponse("train edited successfully", null), HttpStatus.OK);
+        } else {
+            throw new EntityNotFoundException("train not found");
+        }
     }
 
 }
