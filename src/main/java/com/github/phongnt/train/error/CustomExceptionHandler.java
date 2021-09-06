@@ -1,6 +1,7 @@
 package com.github.phongnt.train.error;
 
 import com.github.phongnt.train.dto.GenericResponse;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                                                                    @NonNull WebRequest request) {
         return new ResponseEntity<>(new GenericResponse("invalid endpoint", null),
                 HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<GenericResponse> customHandleNoPropertyReference(Exception ex) {
+        return new ResponseEntity<>(new GenericResponse("Invalid Parameter", null), HttpStatus.BAD_REQUEST);
     }
 
 }

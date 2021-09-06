@@ -1,9 +1,12 @@
 package com.github.phongnt.train.controller;
 
+import com.github.phongnt.train.dto.PageResponse;
 import com.github.phongnt.train.error.EntityNotFoundException;
 import com.github.phongnt.train.model.Train;
 import com.github.phongnt.train.repository.TrainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,9 +35,14 @@ public class TrainController {
      * @return the all trains
      */
     @GetMapping()
-    public ResponseEntity<List<Train>> getAllTrains() {
-        List<Train> trains = trainRepository.findAll();
-        return new ResponseEntity<>(trains, HttpStatus.OK);
+    public ResponseEntity<PageResponse<Train>> getAllTrains(Pageable pageable) {
+        Page<Train> page = trainRepository.findAll(pageable);
+        return new ResponseEntity<>(PageResponse.<Train>builder()
+                .currentPage(page.getNumber())
+                .trains(page.getContent())
+                .totalItems(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build(), HttpStatus.OK);
     }
 
     /**
